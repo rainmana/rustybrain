@@ -1,0 +1,67 @@
+[package]
+name = "rustybrain"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.82"
+description = "Security-and-intelligence-analyst-grade IU coordination substrate with MCW awareness"
+license = "MIT"
+repository = "https://github.com/rainmana/rustybrain"
+
+[[bin]]
+name = "rustybrain"
+path = "src/main.rs"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.44", features = ["full"] }
+
+# Database — Turso (Limbo engine): MVCC, async I/O, FTS5, native vector support
+turso = { version = "0.8.0-pre.13", default-features = false, features = ["fts"] }
+
+# HTTP client for Jev + embedding API calls
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+thiserror = "2.0"
+anyhow = "1.0"
+
+# IDs
+uuid = { version = "1.11", features = ["v4", "serde"] }
+
+# Structured logging / tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+# Rate limiting for outbound API calls
+governor = "0.8"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Async trait support
+async-trait = "0.1"
+
+# CLI argument parsing
+clap = { version = "4.5", features = ["derive", "env"] }
+
+# Local embedding provider (optional, fastembed-rs bundles ONNX runtime)
+fastembed = { version = "4", optional = true }
+
+[features]
+default = []
+# Enable the fastembed local embedding provider.
+# Adds ~50MB to the binary due to the ONNX runtime.
+local-embed = ["dep:fastembed"]
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
