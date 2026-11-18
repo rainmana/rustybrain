@@ -31,3 +31,6 @@ coverage/
 # Temporary files
 *.tmp
 *.swp
+
+# Rust
+/target

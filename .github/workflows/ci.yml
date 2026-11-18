@@ -28,7 +28,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --all-targets
-        # No RUSTYBRAIN_JEV_API_KEY set — tests use MockClassifier.
+        # No API key set — tests use the offline brain.
 
   clippy:
     name: clippy
